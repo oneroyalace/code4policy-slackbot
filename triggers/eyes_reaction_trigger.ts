@@ -15,6 +15,7 @@ const EyesReactionTrigger: Trigger<typeof EyesReactionWorkflow.definition> = {
   workflow: `#/workflows/${EyesReactionWorkflow.definition.callback_id}`,
   event: {
     event_type: TriggerEventTypes.ReactionAdded,
+    channel_ids: ["C0A3PFLA9F1"],
     filter: {
       version: 1,
       root: {
@@ -23,10 +24,13 @@ const EyesReactionTrigger: Trigger<typeof EyesReactionWorkflow.definition> = {
     },
   },
   inputs: {
-    reactor_user_id: { value: TriggerContextData.Event.ReactionAdded.user_id },
-    channel_id: { value: TriggerContextData.Event.ReactionAdded.channel_id },
-    message_ts: { value: TriggerContextData.Event.ReactionAdded.message_ts },
-    reaction: { value: TriggerContextData.Event.ReactionAdded.reaction },
+    event: {
+      value: "{{event}}",
+    },
+    // reactor_user_id: { value: TriggerContextData.Event.ReactionAdded.user_id },
+    // channel_id: { value: TriggerContextData.Event.ReactionAdded.channel_id },
+    // message_ts: { value: TriggerContextData.Event.ReactionAdded.message_ts },
+    // reaction: { value: TriggerContextData.Event.ReactionAdded.reaction },
   },
 };
 

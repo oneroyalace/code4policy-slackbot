@@ -7,11 +7,12 @@ export const HandleEyesReactionDefinition = DefineFunction({
   source_file: "functions/handle_eyes_reaction.ts",
   input_parameters: {
     properties: {
-      reactor_user_id: {type: Schema.slack.types.user_id},
-      channel_id: {type: Schema.slack.types.channel_id},
-      message_ts: { type: Schema.types.string},
+      // reactor_user_id: {type: Schema.slack.types.user_id},
+      // channel_id: {type: Schema.slack.types.channel_id},
+      // message_ts: { type: Schema.types.string},
     },
-    required: ["reactor_user_id", "channel_id", "message_ts"],
+    // required: ["reactor_user_id", "channel_id", "message_ts"],
+    required: [],
   },
   output_parameters: {
     properties: {},
@@ -26,6 +27,7 @@ function isTruthy(x: unknown): boolean {
 export default SlackFunction(
   HandleEyesReactionDefinition,
   async ({ inputs, client }) => {
+    console.log("heloooooo")
     // const ev = inputs.event as any;
 
     // // Reaction metadata
