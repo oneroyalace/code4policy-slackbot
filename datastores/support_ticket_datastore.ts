@@ -12,13 +12,25 @@ const SupportTicketDatastore = DefineDatastore({
     object_id: {
       type: Schema.types.string,
     },
-    original_msg: {
+    trying: {
       type: Schema.types.string,
     },
-    updated_msg: {
+    happened: {
       type: Schema.types.string,
     },
-  },
+    code_link: {
+      type: Schema.types.string,
+    },
+    issue_status: {
+      type: Schema.types.string,
+      enum: [
+        "issue_created",
+        "in_review",
+        "instructor_replied",
+        "completed",
+      ],
+    },
+  }
 });
 
 export default SupportTicketDatastore;

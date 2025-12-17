@@ -14,16 +14,24 @@ export const SupportTicketFunctionDefinition = DefineFunction({
   source_file: "functions/support_ticket_function.ts",
   input_parameters: {
     properties: {
-      message: {
+      trying: {
         type: Schema.types.string,
-        description: "Message to be posted",
+        description: "What student tried to do",
+      },
+      happened: {
+        type: Schema.types.string,
+        description: "Issue student ran into",
+      },
+      code_link: {
+        type: Schema.types.string,
+        description: "Link to issuesome code",
       },
       user: {
         type: Schema.slack.types.user_id,
         description: "The user invoking the workflow",
       },
     },
-    required: ["message", "user"],
+    required: ["trying", "happened", "code_link", "user", "issue_status"],
   },
   output_parameters: {
     properties: {
@@ -50,12 +58,16 @@ export default SlackFunction(
     // inputs.user is set from the interactivity_context defined in support_ticket_trigger.ts
     // https://api.slack.com/automation/forms#add-interactivity
     const updatedMsg =
-      `:wave: :+1: <@${inputs.user}> submitted the following message: \n\n>${inputs.message}`;
+      `Support thread for <@${inputs.user}>`;
+      // `:wave: :+1: <@${inputs.user}> submitted the following message: \n\n>${inputs.message}`;
 
     const supportTicket = {
-      original_msg: inputs.message,
-      updated_msg: updatedMsg,
+      trying: inputs.trying,
+      happened: inputs.happened,
+      code_link: inputs.code_link,
+      user: inputs.user,
       object_id: uuid,
+      issue_status: "issue_created",
     };
 
     // Save the support_ticket object to the datastore
