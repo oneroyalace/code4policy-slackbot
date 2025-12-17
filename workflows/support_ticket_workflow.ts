@@ -66,6 +66,14 @@ const intakeForm = SupportTicketWorkflow.addStep(
 );
 
 /**
+ * Create support thread root
+*/
+const supportThreadRoot = SupportTicketWorkflow.addStep(Schema.slack.functions.SendMessage, {
+  channel_id: SupportTicketWorkflow.inputs.channel,
+  message: `:thread: New support ticket from <@${SupportTicketWorkflow.inputs.user}>`,
+});
+
+/**
  * Custom functions are reusable building blocks
  * of automation deployed to Slack infrastructure. They
  * accept inputs, perform calculations, and provide
@@ -77,18 +85,10 @@ const supportTicketFunctionStep = SupportTicketWorkflow.addStep(SupportTicketFun
   happened: intakeForm.outputs.fields.happened,
   code_link: intakeForm.outputs.fields.code_link,
   user: SupportTicketWorkflow.inputs.user,
+  channel: SupportTicketWorkflow.inputs.channel,
+  thread_root_ts: supportThreadRoot.outputs.ts,
 });
 
-/**
- * SendMessage is a Slack function. These are
- * Slack-native actions, like creating a channel or sending
- * a message and can be used alongside custom functions in a workflow.
- * https://api.slack.com/automation/functions
- */
-const supportThreadRoot = SupportTicketWorkflow.addStep(Schema.slack.functions.SendMessage, {
-  channel_id: SupportTicketWorkflow.inputs.channel,
-  message: `:thread: New support ticket from <@${SupportTicketWorkflow.inputs.user}>`,
-});
 
 SupportTicketWorkflow.addStep( Schema.slack.functions.ReplyInThread, {
     message_context:supportThreadRoot.outputs.message_context,

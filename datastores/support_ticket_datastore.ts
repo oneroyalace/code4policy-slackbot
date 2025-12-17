@@ -30,6 +30,12 @@ const SupportTicketDatastore = DefineDatastore({
         "completed",
       ],
     },
+    channel_id: {
+      type: Schema.types.string,
+    },
+    thread_root_ts: {
+      type: Schema.types.string,
+    },
   }
 });
 

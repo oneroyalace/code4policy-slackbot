@@ -30,8 +30,16 @@ export const SupportTicketFunctionDefinition = DefineFunction({
         type: Schema.slack.types.user_id,
         description: "The user invoking the workflow",
       },
+      channel: {
+        type: Schema.slack.types.channel_id,
+        description: "Channle thread was created in",
+      },
+      thread_root_ts: {
+        type: Schema.types.string,
+        description: "User prompting thread",
+      },
     },
-    required: ["trying", "happened", "code_link", "user", "issue_status"],
+    required: ["trying", "happened", "code_link", "user"],
   },
   output_parameters: {
     properties: {
@@ -67,6 +75,8 @@ export default SlackFunction(
       code_link: inputs.code_link,
       user: inputs.user,
       object_id: uuid,
+      channel_id: inputs.channel,
+      thread_root_ts: inputs.thread_root_ts,
       issue_status: "issue_created",
     };
 
