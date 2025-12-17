@@ -1,6 +1,6 @@
 import { Manifest } from "deno-slack-sdk/mod.ts";
-import SampleWorkflow from "./workflows/sample_workflow.ts";
-import SampleObjectDatastore from "./datastores/sample_datastore.ts";
+import SupportTicketWorkflow from "./workflows/support_ticket_workflow.ts";
+import SupportTicketDatastore from "./datastores/support_ticket_datastore.ts";
 
 /**
  * The app manifest contains the app's configuration. This
@@ -11,9 +11,9 @@ export default Manifest({
   name: "code4policy-bot",
   description: "A template for building Slack apps with Deno",
   icon: "assets/default_new_app_icon.png",
-  workflows: [SampleWorkflow],
+  workflows: [SupportTicketWorkflow],
   outgoingDomains: [],
-  datastores: [SampleObjectDatastore],
+  datastores: [SupportTicketDatastore],
   botScopes: [
     "commands",
     "chat:write",
