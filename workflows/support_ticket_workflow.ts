@@ -73,6 +73,7 @@ const supportThreadRoot = SupportTicketWorkflow.addStep(Schema.slack.functions.S
   message: `:thread: New support ticket from <@${SupportTicketWorkflow.inputs.user}>`,
 });
 
+
 /**
  * Custom functions are reusable building blocks
  * of automation deployed to Slack infrastructure. They
@@ -86,7 +87,7 @@ const supportTicketFunctionStep = SupportTicketWorkflow.addStep(SupportTicketFun
   code_link: intakeForm.outputs.fields.code_link,
   user: SupportTicketWorkflow.inputs.user,
   channel: SupportTicketWorkflow.inputs.channel,
-  thread_root_ts: supportThreadRoot.outputs.ts,
+  thread_root_ts: supportThreadRoot.outputs.message_context.message_ts,
 });
 
 

@@ -39,7 +39,7 @@ export const SupportTicketFunctionDefinition = DefineFunction({
         description: "User prompting thread",
       },
     },
-    required: ["trying", "happened", "code_link", "user"],
+    required: ["trying", "happened", "code_link", "user", "channel", "thread_root_ts"],
   },
   output_parameters: {
     properties: {
