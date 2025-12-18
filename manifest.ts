@@ -1,6 +1,7 @@
 import { Manifest } from "deno-slack-sdk/mod.ts";
 import SupportTicketWorkflow from "./workflows/support_ticket_workflow.ts";
 import EyesReactionWorkflow from "./workflows/eyes_reaction_workflow.ts";
+import CompletedReactionWorkflow from "./workflows/completed_reaction_workflow.ts";
 import SupportTicketDatastore from "./datastores/support_ticket_datastore.ts";
 
 /**
@@ -12,7 +13,7 @@ export default Manifest({
   name: "code4policy-bot",
   description: "A template for building Slack apps with Deno",
   icon: "assets/default_new_app_icon.png",
-  workflows: [SupportTicketWorkflow, EyesReactionWorkflow],
+  workflows: [SupportTicketWorkflow, EyesReactionWorkflow, CompletedReactionWorkflow],
   outgoingDomains: [],
   datastores: [SupportTicketDatastore],
   botScopes: [
