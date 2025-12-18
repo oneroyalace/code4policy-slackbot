@@ -24,13 +24,18 @@ const EyesReactionTrigger: Trigger<typeof EyesReactionWorkflow.definition> = {
     },
   },
   inputs: {
-    event: {
-      value: "{{event}}",
+    // event: {
+    //   value: "{{event}}",
+    // },
+    user: {
+      value: TriggerContextData.Event.ReactionAdded.user_id, 
     },
-    // reactor_user_id: { value: TriggerContextData.Event.ReactionAdded.user_id },
-    // channel_id: { value: TriggerContextData.Event.ReactionAdded.channel_id },
-    // message_ts: { value: TriggerContextData.Event.ReactionAdded.message_ts },
-    // reaction: { value: TriggerContextData.Event.ReactionAdded.reaction },
+    message_ts: {
+      value: TriggerContextData.Event.ReactionAdded.message_ts,
+    },
+    channel: {
+      value: TriggerContextData.Event.ReactionAdded.channel_id,
+    },
   },
 };
 

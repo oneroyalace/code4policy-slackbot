@@ -7,12 +7,11 @@ export const HandleEyesReactionDefinition = DefineFunction({
   source_file: "functions/handle_eyes_reaction.ts",
   input_parameters: {
     properties: {
-      // reactor_user_id: {type: Schema.slack.types.user_id},
-      // channel_id: {type: Schema.slack.types.channel_id},
-      // message_ts: { type: Schema.types.string},
+      reactor_user_id: {type: Schema.slack.types.user_id},
+      channel_id: {type: Schema.slack.types.channel_id},
+      message_ts: { type: Schema.types.string},
     },
-    // required: ["reactor_user_id", "channel_id", "message_ts"],
-    required: [],
+    required: ["reactor_user_id", "channel_id", "message_ts"],
   },
   output_parameters: {
     properties: {},
@@ -28,19 +27,18 @@ export default SlackFunction(
   HandleEyesReactionDefinition,
   async ({ inputs, client }) => {
     console.log("heloooooo")
-    // const ev = inputs.event as any;
+    const event = inputs.event;
 
-    // // Reaction metadata
-    // const reaction = ev.reaction;            // "eyes"
-    // const reactorUserId = ev.user;           // the user who reacted
-    // const item = ev.item;                    // { channel, ts, type: "message" }
-    // const channelId = item?.channel;
-    // const reactedTs = item?.ts;
+    // Reaction metadata
+    const reactorUserId = inputs.reactor_user_id;           // the user who reacted
+    const channelId = inputs.channel_id;
+    const messageTs = inputs.message_ts;
 
-    // // Defensive checks
-    // if (reaction !== "eyes" || !reactorUserId || !channelId || !reactedTs) {
-    //   return { outputs: {} };
-    // }
+    console.log("reactor", reactorUserId)
+    console.log("channel id1", channelId)
+    console.log("message ts", messageTs)
+    console.log("event", event)
+
 
     // /**
     //  * IMPORTANT: We assume instructors react :eyes: on the *thread root* message.
