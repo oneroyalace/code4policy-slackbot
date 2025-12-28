@@ -1,6 +1,9 @@
 import { DefineWorkflow, Schema } from "deno-slack-sdk/mod.ts";
 import { SupportTicketFunctionDefinition } from "../functions/support_ticket_function.ts";
+import { ClaudeReplyFunctionDefinition } from "../functions/claude_reply_function.ts";
 
+const instructorIds = ["U05Q4KW9QRJ"]
+const instructorMentions = instructorIds.map(id => `<@${id}>`).join(" ");
 /**
  * A workflow is a set of steps that are executed in order.
  * Each step in a workflow is a function.
@@ -73,6 +76,7 @@ const supportThreadRoot = SupportTicketWorkflow.addStep(Schema.slack.functions.S
   message: `:thread: New support ticket from <@${SupportTicketWorkflow.inputs.user}>`,
 });
 
+console.log("support thread root", supportThreadRoot.outputs.message_context.message_ts.toString())
 
 /**
  * Custom functions are reusable building blocks
@@ -101,7 +105,7 @@ SupportTicketWorkflow.addStep( Schema.slack.functions.ReplyInThread, {
 *_What were you trying to do?_*
 ${intakeForm.outputs.fields.trying}
 
-*_What happened instead?_*
+*_What issue did you run into? Do you have an LLM deubgging convo link?_*
 ${intakeForm.outputs.fields.happened}
 
 *_Code / screenshot_*
@@ -109,4 +113,21 @@ ${intakeForm.outputs.fields.code_link} `,
 });
 
 
+SupportTicketWorkflow.addStep( Schema.slack.functions.ReplyInThread, {
+    message_context:supportThreadRoot.outputs.message_context,
+    reply_broadcast: false,
+    message: `:bell: Pinging instructors! ${instructorMentions}`
+});
+
+
+SupportTicketWorkflow.addStep(ClaudeReplyFunctionDefinition, {
+  // channel_id: ClaudeAssistantWorkflow.inputs.channel_id,
+  channel: "C0A3PFLA9F1",
+  // channel: SupportTicketWorkflow.inputs.channel,
+  thread_root_ts: "1766950078.908609",
+  // thread_root_ts: supportThreadRoot.outputs.message_context.message_ts,
+  user_text: "Please write me a fibonnacci function in python. Output nothing except code",
+});
+
 export default SupportTicketWorkflow;
+

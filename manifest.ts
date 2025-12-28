@@ -14,7 +14,7 @@ export default Manifest({
   description: "A template for building Slack apps with Deno",
   icon: "assets/default_new_app_icon.png",
   workflows: [SupportTicketWorkflow, EyesReactionWorkflow, CompletedReactionWorkflow],
-  outgoingDomains: [],
+  outgoingDomains: ["api.anthropic.com"],
   datastores: [SupportTicketDatastore],
   botScopes: [
     "commands",
@@ -23,5 +23,7 @@ export default Manifest({
     "datastore:read",
     "datastore:write",
     "reactions:read",
+    "channels:history",
+    "groups:history",
   ],
 });
