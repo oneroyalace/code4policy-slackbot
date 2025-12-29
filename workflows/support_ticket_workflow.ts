@@ -124,7 +124,7 @@ SupportTicketWorkflow.addStep(ClaudeReplyFunctionDefinition, {
   // channel_id: ClaudeAssistantWorkflow.inputs.channel_id,
   channel: "C0A3PFLA9F1",
   // channel: SupportTicketWorkflow.inputs.channel,
-  thread_root_ts: "1766950078.908609",
+  message_ts: "1766950078.908609",
   // thread_root_ts: supportThreadRoot.outputs.message_context.message_ts,
   user_text: "Please write me a fibonnacci function in python. Output nothing except code",
 });

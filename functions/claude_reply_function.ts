@@ -20,10 +20,10 @@ export const ClaudeReplyFunctionDefinition = DefineFunction({
   input_parameters: {
     properties: {
       channel: { type: Schema.slack.types.channel_id },
-      thread_root_ts: { type: Schema.types.string },
+      message_ts: { type: Schema.types.string },
       user_text: { type: Schema.types.string },
     },
-    required: ["channel", "thread_root_ts"],
+    required: ["channel", "message_ts"],
   },
   output_parameters: {
     properties: {
@@ -48,7 +48,7 @@ export default SlackFunction(
     console.log(inputs)
     // const { channel_id, message_ts, user_text } = inputs;
     const channel_id = inputs.channel
-    const message_ts = inputs.thread_root_ts
+    const message_ts = inputs.message_ts
     const user_text = inputs.user_text
     console.log(channel_id)
     console.log(message_ts)
