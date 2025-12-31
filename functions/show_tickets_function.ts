@@ -95,7 +95,7 @@ export default SlackFunction(
         message += `   _Trying:_ ${ticket.trying}\n`;
         message += `   _Issue:_ ${ticket.happened}\n`;
         message += `   <${threadLink}|View thread>\n`;
-        message += `   ───────────────────────────────────\n\n`;
+        message += `   ───\n\n`;
       }
     }
 

@@ -98,7 +98,7 @@ export default SlackFunction(
     await client.chat.postMessage({
       channel: channelId,
       thread_ts: messageTs,
-      text: `<@${inputs.reactor_user_id}> marked this issue completed!`,
+      text: `───\n<@${inputs.reactor_user_id}> marked this issue completed!\n───`,
     });
 
     return { outputs: {} };
