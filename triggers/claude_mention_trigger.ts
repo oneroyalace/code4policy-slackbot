@@ -1,4 +1,4 @@
-import { Trigger } from "deno-slack-sdk/types.ts";
+import type { Trigger } from "deno-slack-api/types.ts";
 import { TriggerContextData, TriggerTypes, TriggerEventTypes} from "deno-slack-api/mod.ts";
 import ClaudeAssistantWorkflow from "../workflows/claude_assistant_workflow.ts";
 
@@ -20,14 +20,7 @@ const ClaudeMentionTrigger: Trigger<typeof ClaudeAssistantWorkflow.definition> =
   },
   inputs: {
     channel: {
-      value: "C0A3PFLA9F1",
-      // value: TriggerContextData.Event.AppMentioned.channel_id,
-    },
-    message_ts: {
-      value: "1767199732.989619"//TriggerContextData.Event.AppMentioned.message_ts,
-    },
-    user_text: {
-      value: "Please wite me a haiku about high school band programs. Provide no additional output." //TriggerContextData.Event.AppMentioned.Event.user_text,
+      value: "{{data.channel_id}}",
     },
   }
 };

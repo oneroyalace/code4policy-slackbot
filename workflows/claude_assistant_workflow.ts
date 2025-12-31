@@ -12,11 +12,11 @@ const ClaudeAssistantWorkflow = DefineWorkflow({
   description: "Reads a thread, calls Claude, and replies in the same thread.",
   input_parameters: {
     properties: {
-      // channel: { type: Schema.slack.types.channel_id },
-      // message_ts: { type: Schema.types.string },
-      // user_text: { type: Schema.types.string },
+      channel: { type: Schema.slack.types.channel_id },
+      message_ts: { type: Schema.types.string },
+      user_text: { type: Schema.types.string },
     },
-    required: [] //["channel"] //, "message_ts"],
+    required: ["channel"],
   },
 });
 
@@ -24,9 +24,7 @@ const ClaudeAssistantWorkflow = DefineWorkflow({
 // Step 1: call your function that does thread fetch + Claude + reply
 
 ClaudeAssistantWorkflow.addStep(ClaudeReplyFunctionDefinition, {
-  channel: "C0A3PFLA9F1", //ClaudeAssistantWorkflow.inputs.channel,
-  message_ts: "1767199732.989619", //ClaudeAssistantWorkflow.inputs.message_ts,
-  user_text: "Please wite me a haiku about high school band programs. Provide no additional output.", //ClaudeAssistantWorkflow.inputs.user_text,
+  channel: ClaudeAssistantWorkflow.inputs.channel,
 });
 
 export default ClaudeAssistantWorkflow;
