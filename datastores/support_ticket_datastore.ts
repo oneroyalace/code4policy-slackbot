@@ -36,6 +36,9 @@ const SupportTicketDatastore = DefineDatastore({
     thread_root_ts: {
       type: Schema.types.string,
     },
+    user: {
+      type: Schema.slack.types.user_id,
+    },
   }
 });
 

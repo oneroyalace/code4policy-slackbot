@@ -45,9 +45,14 @@ export default SlackFunction(
     }
 
     // Filter for open tickets (issue_created or in_review)
-    const openTickets = (allTickets.items ?? []).filter((ticket: any) => {
+    let openTickets = (allTickets.items ?? []).filter((ticket: any) => {
       return ticket.issue_status === "issue_created" ||
              ticket.issue_status === "in_review";
+    });
+
+    // Sort by timestamp (oldest first)
+    openTickets = openTickets.sort((a: any, b: any) => {
+      return parseFloat(a.thread_root_ts) - parseFloat(b.thread_root_ts);
     });
 
     console.log(`Found ${openTickets.length} open tickets`);
@@ -60,15 +65,38 @@ export default SlackFunction(
     } else {
       message = `:clipboard: *Open Support Tickets* (${openTickets.length})\n\n`;
 
-      openTickets.forEach((ticket: any, index: number) => {
+      for (const [index, ticket] of openTickets.entries()) {
         const statusEmoji = ticket.issue_status === "in_review" ? ":eyes:" : ":new:";
-        const threadLink = `https://slack.com/app_redirect?channel=${inputs.channel_id}&message_ts=${ticket.thread_root_ts}`;
 
-        message += `${index + 1}. ${statusEmoji} *${ticket.issue_status}*\n`;
+        // Convert timestamp to human-readable format
+        const timestamp = parseFloat(ticket.thread_root_ts);
+        const date = new Date(timestamp * 1000);
+        const humanDate = date.toLocaleString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true
+        });
+
+        // Get permalink for the thread
+        const permalink = await client.chat.getPermalink({
+          channel: ticket.channel_id,
+          message_ts: ticket.thread_root_ts,
+        });
+
+        const threadLink = permalink.ok ? permalink.permalink : "#";
+
+        // Handle missing user field for old tickets
+        const userMention = ticket.user ? `<@${ticket.user}>` : "Unknown user";
+
+        message += `${index + 1}. Ticket opened by: ${userMention} at: ${humanDate}\n`;
+        message += `   Status: ${statusEmoji} *${ticket.issue_status}*\n`;
         message += `   _Trying:_ ${ticket.trying}\n`;
         message += `   _Issue:_ ${ticket.happened}\n`;
-        message += `   <${threadLink}|View thread>\n\n`;
-      });
+        message += `   <${threadLink}|View thread>\n`;
+        message += `   ───────────────────────────────────\n\n`;
+      }
     }
 
     // Post the message
