@@ -19,11 +19,12 @@ export const ClaudeReplyFunctionDefinition = DefineFunction({
   source_file: "functions/claude_reply_function.ts",
   input_parameters: {
     properties: {
+      // event: {type: Schema.types.object },
       channel: { type: Schema.slack.types.channel_id },
       message_ts: { type: Schema.types.string },
       user_text: { type: Schema.types.string },
     },
-    required: ["channel", "message_ts"],
+    required: [] //["channel", "message_ts"],
   },
   output_parameters: {
     properties: {
@@ -58,7 +59,7 @@ export default SlackFunction(
     // 1) Pull thread context
     const replies = await client.conversations.replies({
       channel: channel_id,
-      ts: message_ts,
+      ts: message_ts, 
       limit: 50,
     });
 

@@ -20,20 +20,16 @@ const ClaudeMentionTrigger: Trigger<typeof ClaudeAssistantWorkflow.definition> =
   },
   inputs: {
     channel: {
-      value: "{{event.channel_id}}", //TriggerContextData.Event.AppMentioned.Event.channel,
+      value: "C0A3PFLA9F1",
+      // value: TriggerContextData.Event.AppMentioned.channel_id,
     },
     message_ts: {
-      value: "{{event.message_ts}}", //TriggerContextData.Event.AppMentioned.Event.ts,
+      value: "1767199732.989619"//TriggerContextData.Event.AppMentioned.message_ts,
     },
-    thread_ts: {
-      value: "{{event.thread_ts}}", //TriggerContextData.Event.AppMentioned.Event.thread_ts,
+    user_text: {
+      value: "Please wite me a haiku about high school band programs. Provide no additional output." //TriggerContextData.Event.AppMentioned.Event.user_text,
     },
-    // thread_ts: {
-    //   // If the mention is already in a thread, use the root.
-    //   // Otherwise fall back to the message itself.
-    //   value: "{{event.thread_ts}}",
-    // },
-  },
+  }
 };
 
 export default ClaudeMentionTrigger;
