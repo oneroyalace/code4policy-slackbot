@@ -1,7 +1,7 @@
 import { DefineWorkflow, Schema } from "deno-slack-sdk/mod.ts";
 import { SupportTicketFunctionDefinition } from "../functions/support_ticket_function.ts";
 
-const instructorIds = ["U05Q4KW9QRJ"]
+const instructorIds = ["U0A21CGDNKB"]
 const instructorMentions = instructorIds.map(id => `<@${id}>`).join(" ");
 /**
  * A workflow is a set of steps that are executed in order.
