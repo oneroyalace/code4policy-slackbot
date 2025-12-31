@@ -10,8 +10,8 @@ import CompletedReactionWorkflow from "../workflows/completed_reaction_workflow.
  */
 const CompletedReactionTrigger: Trigger<typeof CompletedReactionWorkflow.definition> = {
   type: TriggerTypes.Event,
-  name: "Mark a ticket thread as completed",
-  description: "Marks a ticket as completed",
+  name: "Use :completed: to mark a support ticket thread as 'completed'",
+  description: "Marks a ticket as completed when someone adds :completed: to the ticket thread root message",
   workflow: `#/workflows/${CompletedReactionWorkflow.definition.callback_id}`,
   event: {
     event_type: TriggerEventTypes.ReactionAdded,

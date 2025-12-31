@@ -10,7 +10,7 @@ import EyesReactionWorkflow from "../workflows/eyes_reaction_workflow.ts";
  */
 const EyesReactionTrigger: Trigger<typeof EyesReactionWorkflow.definition> = {
   type: TriggerTypes.Event,
-  name: "Mark a support ticket thread as 'in review'",
+  name: "Use :eyes: to mark a support ticket thread as 'in review'",
   description: "Marks a ticket in_review when an instructor adds :eyes: to the ticket thread root message.",
   workflow: `#/workflows/${EyesReactionWorkflow.definition.callback_id}`,
   event: {
