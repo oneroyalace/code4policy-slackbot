@@ -16,7 +16,7 @@ const ClaudeMentionTrigger: Trigger<typeof ClaudeAssistantWorkflow.definition> =
   workflow: `#/workflows/${ClaudeAssistantWorkflow.definition.callback_id}`,
   event: {
     event_type: TriggerEventTypes.AppMentioned,
-    channel_ids: ["C0A3PFLA9F1"],
+    all_resources: true,
   },
   inputs: {
     channel: {

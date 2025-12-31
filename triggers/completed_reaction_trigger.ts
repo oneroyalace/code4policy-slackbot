@@ -15,8 +15,7 @@ const CompletedReactionTrigger: Trigger<typeof CompletedReactionWorkflow.definit
   workflow: `#/workflows/${CompletedReactionWorkflow.definition.callback_id}`,
   event: {
     event_type: TriggerEventTypes.ReactionAdded,
-    channel_ids: ["C0A3PFLA9F1"],
-
+    all_resources: true,
     filter: {
       version: 1,
       root: {

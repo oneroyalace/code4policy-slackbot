@@ -1,6 +1,5 @@
 import { DefineWorkflow, Schema } from "deno-slack-sdk/mod.ts";
 import { SupportTicketFunctionDefinition } from "../functions/support_ticket_function.ts";
-import { ClaudeReplyFunctionDefinition } from "../functions/claude_reply_function.ts";
 
 const instructorIds = ["U05Q4KW9QRJ"]
 const instructorMentions = instructorIds.map(id => `<@${id}>`).join(" ");
@@ -117,16 +116,6 @@ SupportTicketWorkflow.addStep( Schema.slack.functions.ReplyInThread, {
     message_context:supportThreadRoot.outputs.message_context,
     reply_broadcast: false,
     message: `:bell: Pinging instructors! ${instructorMentions}`
-});
-
-
-SupportTicketWorkflow.addStep(ClaudeReplyFunctionDefinition, {
-  // channel_id: ClaudeAssistantWorkflow.inputs.channel_id,
-  channel: "C0A3PFLA9F1",
-  // channel: SupportTicketWorkflow.inputs.channel,
-  message_ts: "1766950078.908609",
-  // thread_root_ts: supportThreadRoot.outputs.message_context.message_ts,
-  user_text: "Please write me a fibonnacci function in python. Output nothing except code",
 });
 
 export default SupportTicketWorkflow;
