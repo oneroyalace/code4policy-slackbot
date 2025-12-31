@@ -9,7 +9,7 @@ import SupportTicketWorkflow from "../workflows/support_ticket_workflow.ts";
  */
 const supportTicketTrigger: Trigger<typeof supportTicketWorkflow.definition> = {
   type: TriggerTypes.Shortcut,
-  name: "Support ticket trigger",
+  name: "Open new support ticket thread",
   description: "Trigger for support ticket",
   workflow: `#/workflows/${SupportTicketWorkflow.definition.callback_id}`,
   inputs: {
