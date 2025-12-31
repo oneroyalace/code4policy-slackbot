@@ -52,29 +52,33 @@ export default SlackFunction(
     console.log("Look i'm an instructor")
 
     // 2) Find the ticket record by channel_id + thread_root_ts.
-    // TODO: if this stops working, change the primary key to a combo of channel id + truncated messageTs
-    const q = await client.apps.datastore.query({
+    // Note: We always react to the thread root, so messageTs IS the thread_root_ts
+    // Note: Slack's datastore AND query doesn't work reliably, so we query by channel
+    // and find the matching timestamp in code
+    console.log(`Looking for ticket: channel=${channelId}, thread_root_ts=${messageTs}`);
+
+    const allInChannel = await client.apps.datastore.query({
       datastore: "SupportTickets",
-      expression: "#c = :c AND #t = :t",
-      // expression: "#c = :c",
+      expression: "#c = :c",
       expression_attributes: {
         "#c": "channel_id",
-        "#t": "thread_root_ts",
       },
       expression_values: {
         ":c": channelId,
-        ":t": messageTs,
       },
-      limit: 1,
     });
 
-    if (!q.ok) {
-      return { error: `Datastore query failed: ${q.error}` };
+    if (!allInChannel.ok) {
+      return { error: `Datastore query failed: ${allInChannel.error}` };
     }
 
-    const ticket = (q.items ?? [])[0];
+    // Find the ticket with matching timestamp
+    const ticket = (allInChannel.items ?? []).find((item: any) => {
+      return item.thread_root_ts === messageTs;
+    });
+
     if (!ticket) {
-      console.log(`not icket for channelId ${channelId}, messageTs ${messageTs}`)
+      console.log(`No ticket found for channelId ${channelId}, thread_root_ts ${messageTs}`)
       // Not a managed ticket
       return { outputs: {} };
     }
