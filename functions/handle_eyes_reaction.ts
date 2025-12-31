@@ -44,7 +44,7 @@ export default SlackFunction(
 
 
     // const instructorUsergroupId = Deno.env.get("INSTRUCTOR_USERGROUP_ID");
-    const instructorIds = ["U05Q4KW9QRJ"]
+    const instructorIds = ["U0A21CGDNKB"]
 
     if (!instructorIds.includes(reactorUserId)) {
         return { outputs: {} }; // Ignore non-instructors

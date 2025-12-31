@@ -66,45 +66,61 @@ export default SlackFunction(
       message = `:clipboard: *Open Support Tickets* (${openTickets.length})\n\n`;
 
       for (const [index, ticket] of openTickets.entries()) {
-        const statusEmoji = ticket.issue_status === "in_review" ? ":eyes:" : ":new:";
+        try {
+          const statusEmoji = ticket.issue_status === "in_review" ? ":eyes:" : ":new:";
 
-        // Convert timestamp to human-readable format
-        const timestamp = parseFloat(ticket.thread_root_ts);
-        const date = new Date(timestamp * 1000);
-        const humanDate = date.toLocaleString('en-US', {
-          month: 'short',
-          day: 'numeric',
-          hour: 'numeric',
-          minute: '2-digit',
-          hour12: true
-        });
+          // Convert timestamp to human-readable format
+          const timestamp = parseFloat(ticket.thread_root_ts);
+          const date = new Date(timestamp * 1000);
+          const humanDate = date.toLocaleString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+          });
 
-        // Get permalink for the thread
-        const permalink = await client.chat.getPermalink({
-          channel: ticket.channel_id,
-          message_ts: ticket.thread_root_ts,
-        });
+          // Get permalink for the thread
+          const permalink = await client.chat.getPermalink({
+            channel: ticket.channel_id,
+            message_ts: ticket.thread_root_ts,
+          });
 
-        const threadLink = permalink.ok ? permalink.permalink : "#";
+          if (!permalink.ok) {
+            console.log(`Failed to get permalink for ticket ${index + 1}: ${permalink.error}`);
+          }
 
-        // Handle missing user field for old tickets
-        const userMention = ticket.user ? `<@${ticket.user}>` : "Unknown user";
+          const threadLink = permalink.ok ? permalink.permalink : "#";
 
-        message += `${index + 1}. Ticket opened by: ${userMention} at: ${humanDate}\n`;
-        message += `   Status: ${statusEmoji} *${ticket.issue_status}*\n`;
-        message += `   _Trying:_ ${ticket.trying}\n`;
-        message += `   _Issue:_ ${ticket.happened}\n`;
-        message += `   <${threadLink}|View thread>\n`;
-        message += `   ───\n\n`;
+          // Handle missing user field for old tickets
+          const userMention = ticket.user ? `<@${ticket.user}>` : "Unknown user";
+
+          message += `${index + 1}. Ticket opened by ${userMention} at ${humanDate} in <#${ticket.channel_id}>\n`;
+          message += `   Status: ${statusEmoji} *${ticket.issue_status}*\n`;
+          message += `   _Trying:_ ${ticket.trying}\n`;
+          message += `   _Issue:_ ${ticket.happened}\n`;
+          message += `   <${threadLink}|View thread>\n`;
+          message += `   ───\n\n`;
+        } catch (error) {
+          console.log(`Error formatting ticket ${index + 1}:`, error);
+          // Continue with other tickets
+        }
       }
     }
 
     // Post the message
-    await client.chat.postMessage({
+    console.log("Posting message to channel...");
+    const postResult = await client.chat.postMessage({
       channel: inputs.channel_id,
       text: message,
     });
 
+    if (!postResult.ok) {
+      console.log(`Failed to post message: ${postResult.error}`);
+      return { error: `Failed to post message: ${postResult.error}` };
+    }
+
+    console.log("Successfully posted message");
     return { outputs: { message } };
   },
 );
