@@ -7,25 +7,7 @@ export const ShowTicketsFunctionDefinition = DefineFunction({
   source_file: "functions/show_tickets_function.ts",
   input_parameters: {
     properties: {
-      channel_id: { type: Schema.slack.types.channel_id },
-      user_id: { type: Schema.slack.types.user_id },
-    },
-    required: ["channel_id", "user_id"],
-  },
-  output_parameters: {
-    properties: {
-      message: {
-        type: Schema.types.string,
-        description: "Formatted ticket list",
-      },
-    },
-    required: ["message"],
-  },
-});
-
-export default SlackFunction(
-  ShowTicketsFunctionDefinition,
-  async ({ inputs, client }) => {
+      channel_id:asdf
     console.log("Fetching open tickets...");
 
     // Query all tickets in the channel
@@ -37,9 +19,9 @@ export default SlackFunction(
       },
       expression_values: {
         ":c": inputs.channel_id,
-      },
+      sd
     });
-
+sdf
     if (!allTickets.ok) {
       return { error: `Failed to query tickets: ${allTickets.error}` };
     }
@@ -49,7 +31,7 @@ export default SlackFunction(
       return ticket.issue_status === "issue_created" ||
              ticket.issue_status === "in_review";
     });
-
+asdfa
     // Sort by timestamp (oldest first)
     openTickets = openTickets.sort((a: any, b: any) => {
       return parseFloat(a.thread_root_ts) - parseFloat(b.thread_root_ts);
