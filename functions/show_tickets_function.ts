@@ -1,27 +1,4 @@
-import { DefineFunction, Schema, SlackFunction } from "deno-slack-sdk/mod.ts";
 
-export const ShowTicketsFunctionDefinition = DefineFunction({
-  callback_id: "show_tickets_function",
-  title: "Show open tickets",
-  description: "Display all tickets with status 'issue_created' or 'in_review'",
-  source_file: "functions/show_tickets_function.ts",
-  input_parameters: {
-    properties: {
-      channel_id: { type: Schema.slack.types.channel_id },
-      user_id: { type: Schema.slack.types.user_id },
-    },
-    required: ["channel_id", "user_id"],
-  },
-  output_parameters: {
-    properties: {
-      message: {
-        type: Schema.types.string,
-        description: "Formatted ticket list",
-      },
-    },
-    required: ["message"],
-  },
-});
 
 export default SlackFunction(
   ShowTicketsFunctionDefinition,
