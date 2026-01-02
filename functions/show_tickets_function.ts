@@ -5,33 +5,7 @@ export const ShowTicketsFunctionDefinition = DefineFunction({
   title: "Show open tickets",
   description: "Display all tickets with status 'issue_created' or 'in_review'",
   source_file: "functions/show_tickets_function.ts",
-  input_parameters: {
-    properties: {
-      channel_id: { type: Schema.slack.types.channel_id },
-      user_id: { type: Schema.slack.types.user_id },
-    },
-    required: ["channel_id", "user_id"],
-  },
-  output_parameters: {
-    properties: {
-      message: {
-        type: Schema.types.string,
-        description: "Formatted ticket list",
-      },
-    },
-    required: ["message"],
-  },
-});
-
-export default SlackFunction(
-  ShowTicketsFunctionDefinition,
-  async ({ inputs, client }) => {
-    console.log("Fetching open tickets...");
-
-    // Query all tickets in the channel
-    const allTickets = await client.apps.datastore.query({
-      datastore: "SupportTickets",
-      expression: "#c = :c",
+  inpu
       expression_attributes: {
         "#c": "channel_id",
       },
