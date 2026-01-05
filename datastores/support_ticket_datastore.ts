@@ -21,6 +21,12 @@ const SupportTicketDatastore = DefineDatastore({
     code_link: {
       type: Schema.types.string,
     },
+    error_msg: {
+      type: Schema.types.string,
+    },
+    urgency: {
+      type: Schema.types.string,
+    },
     issue_status: {
       type: Schema.types.string,
       enum: [

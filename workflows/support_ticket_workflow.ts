@@ -2,7 +2,7 @@ import { DefineWorkflow, Schema } from "deno-slack-sdk/mod.ts";
 import { SupportTicketFunctionDefinition } from "../functions/support_ticket_function.ts";
 
 const instructorIds = ["U0A21CGDNKB", // Asa
-                       "U063HLRSPT6"], // Aarushi
+                       "U063HLRSPT6", // Aarushi
                        "UEWCD304A"] // Dhrumil
 
 const instructorMentions = instructorIds.map(id => `<@${id}>`).join(" ");
@@ -61,6 +61,17 @@ const intakeForm = SupportTicketWorkflow.addStep(
           long: true,
         },
         {
+          name: "error_msg",
+          title: "Please post your error message and/or logs",
+          type: Schema.types.string,
+          long: true,
+        },
+        {
+          name: "urgency",
+          title: "How urgent is this issue (1-5). A 5 is probably an issue that prevents you from completing any additional work.",
+          type: Schema.types.string,
+        },
+        {
           name: "code_link",
           title: "Link to code (or say where you posted a screenshot)",
           type: Schema.types.string,
@@ -90,6 +101,8 @@ console.log("support thread root", supportThreadRoot.outputs.message_context.mes
 const supportTicketFunctionStep = SupportTicketWorkflow.addStep(SupportTicketFunctionDefinition, {
   trying: intakeForm.outputs.fields.trying,
   happened: intakeForm.outputs.fields.happened,
+  error_msg: intakeForm.outputs.fields.error_msg,
+  urgency: intakeForm.outputs.fields.urgency,
   code_link: intakeForm.outputs.fields.code_link,
   user: SupportTicketWorkflow.inputs.user,
   channel: SupportTicketWorkflow.inputs.channel,
@@ -109,6 +122,12 @@ ${intakeForm.outputs.fields.trying}
 
 *_What issue did you run into? Do you have an LLM deubgging convo link?_*
 ${intakeForm.outputs.fields.happened}
+
+*_Error message and/or logs_*
+${intakeForm.outputs.fields.error_msg}
+
+*_Urgency_*
+${intakeForm.outputs.fields.urgency}
 
 *_Code / screenshot_*
 ${intakeForm.outputs.fields.code_link} `,
