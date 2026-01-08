@@ -161,8 +161,8 @@ export default SlackFunction(
     }
 
     // 3) Call Claude
-    const apiKey = Deno.env.get("ANTHROPIC_API_KEY");
-    const model = env.CLAUDE_MODEL ?? "claude-sonnet-4-20250514";
+    const apiKey = env["ANTHROPIC_API_KEY"];
+    const model = env["CLAUDE_MODEL"];
 
     console.log("Calling Claude with messages:", JSON.stringify(threadMessages, null, 2));
 
