@@ -4,6 +4,7 @@ import EyesReactionWorkflow from "./workflows/eyes_reaction_workflow.ts";
 import CompletedReactionWorkflow from "./workflows/completed_reaction_workflow.ts";
 import ClaudeAssistantWorkflow from "./workflows/claude_assistant_workflow.ts";
 import ShowTicketsWorkflow from "./workflows/show_tickets_workflow.ts";
+import PingInstructorsWorkflow from "./workflows/ping_instructors_workflow.ts";
 // import Workflow from "./workflows/workflow.ts";
 import SupportTicketDatastore from "./datastores/support_ticket_datastore.ts";
 
@@ -16,7 +17,7 @@ export default Manifest({
   name: "code4policy-bot",
   description: "A template for building Slack apps with Deno",
   icon: "assets/default_new_app_icon.png",
-  workflows: [SupportTicketWorkflow, EyesReactionWorkflow, CompletedReactionWorkflow, ClaudeAssistantWorkflow, ShowTicketsWorkflow],
+  workflows: [SupportTicketWorkflow, EyesReactionWorkflow, CompletedReactionWorkflow, ClaudeAssistantWorkflow, ShowTicketsWorkflow, PingInstructorsWorkflow],
   outgoingDomains: ["api.anthropic.com"],
   datastores: [SupportTicketDatastore],
   botScopes: [

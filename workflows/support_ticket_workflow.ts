@@ -1,11 +1,6 @@
 import { DefineWorkflow, Schema } from "deno-slack-sdk/mod.ts";
 import { SupportTicketFunctionDefinition } from "../functions/support_ticket_function.ts";
 
-const instructorIds = ["U0A21CGDNKB", // Asa
-                       "U063HLRSPT6", // Aarushi
-                       "UEWCD304A"] // Dhrumil
-
-const instructorMentions = instructorIds.map(id => `<@${id}>`).join(" ");
 /**
  * A workflow is a set of steps that are executed in order.
  * Each step in a workflow is a function.
@@ -133,12 +128,6 @@ ${intakeForm.outputs.fields.urgency}
 ${intakeForm.outputs.fields.code_link} `,
 });
 
-
-SupportTicketWorkflow.addStep( Schema.slack.functions.ReplyInThread, {
-    message_context:supportThreadRoot.outputs.message_context,
-    reply_broadcast: false,
-    message: `:bell: Pinging instructors! ${instructorMentions}`
-});
 
 export default SupportTicketWorkflow;
 
