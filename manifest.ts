@@ -15,8 +15,8 @@ import SupportTicketDatastore from "./datastores/support_ticket_datastore.ts";
  */
 export default Manifest({
   name: "code4policy-bot",
-  description: "A template for building Slack apps with Deno",
-  icon: "assets/default_new_app_icon.png",
+  description: "",
+  icon: "assets/walle.jpg",
   workflows: [SupportTicketWorkflow, EyesReactionWorkflow, CompletedReactionWorkflow, ClaudeAssistantWorkflow, ShowTicketsWorkflow, PingInstructorsWorkflow],
   outgoingDomains: ["api.anthropic.com"],
   datastores: [SupportTicketDatastore],
