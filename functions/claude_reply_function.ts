@@ -122,6 +122,12 @@ export default SlackFunction(
       // Otherwise use the mention message timestamp
       message_ts = (mentionMessage as any).thread_ts || mentionMessage.ts;
       console.log(`Found bot mention at ${mentionMessage.ts}, thread_ts: ${(mentionMessage as any).thread_ts}, using thread root ${message_ts}`);
+
+      // Check if the message contains "ping" - if so, skip processing (let ping workflow handle it)
+      if (mentionMessage.text?.toLowerCase().includes("ping")) {
+        console.log("Message contains 'ping', skipping Claude processing");
+        return { outputs: { claudeReply: "Ping workflow will handle this." } };
+      }
     }
 
     // 1) Pull thread context
@@ -137,6 +143,18 @@ export default SlackFunction(
     else {
       console.log("read thread")
       console.log(replies)
+    }
+
+    // Check if the most recent user message contains "ping" - if so, skip Claude processing
+    const recentUserMessages = (replies.messages ?? []).filter((m: any) => {
+      return !m.bot_id && m.subtype !== "bot_message";
+    });
+    if (recentUserMessages.length > 0) {
+      const lastUserMessage = recentUserMessages[recentUserMessages.length - 1];
+      if (lastUserMessage.text?.toLowerCase().includes("ping")) {
+        console.log("Recent message contains 'ping', skipping Claude processing");
+        return { outputs: { claudeReply: "Ping workflow will handle this." } };
+      }
     }
 
     // 2) Convert Slack messages to Claude messages

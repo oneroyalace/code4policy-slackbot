@@ -14,6 +14,12 @@ const PingInstructorsTrigger: Trigger<typeof PingInstructorsWorkflow.definition>
   event: {
     event_type: TriggerEventTypes.AppMentioned,
     all_resources: true,
+    filter: {
+      version: 1,
+      root: {
+        statement: "{{data.text}} CONTAINS ping",
+      },
+    },
   },
   inputs: {
     channel: {

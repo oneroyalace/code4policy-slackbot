@@ -17,12 +17,6 @@ const ClaudeMentionTrigger: Trigger<typeof ClaudeAssistantWorkflow.definition> =
   event: {
     event_type: TriggerEventTypes.AppMentioned,
     all_resources: true,
-    filter: {
-      version: 1,
-      root: {
-        statement: "{{data.text}} NOT CONTAINS ping",
-      },
-    },
   },
   inputs: {
     channel: {
